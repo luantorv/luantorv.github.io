@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luis Reis Viera — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:           #08081a;
+    --bg2:          #0e0f24;
+    --navy:         #292e6c;
+    --blue-mid:     #5377c2;
+    --blue-light:   #7fbae4;
+    --border:       rgba(83,119,194,0.18);
+    --border-hover: rgba(127,186,228,0.4);
+    --accent:       #5377c2;
+    --accent-light: #7fbae4;
+    --accent-dim:   rgba(83,119,194,0.13);
+    --text:         #dde6f0;
+    --text-muted:   #6b7a8d;
+    --text-dim:     #9aafc4;
+    --mono: "JetBrains Mono", monospace;
+    --sans: "Inter", sans-serif;
+    --display: "Space Grotesk", sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent-light); text-decoration: none; transition: color 0.2s; }
+  a:hover { color: #fff; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(8,8,26,0.88); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem; height: 56px;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent-light); letter-spacing: 0.02em; white-space: nowrap; }
+  .nav-right { display: flex; align-items: center; gap: 1.75rem; }
+  .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+  .nav-links a { font-family: var(--sans); font-size: 13px; color: var(--text-muted); letter-spacing: 0.03em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .lang-btn {
+    font-family: var(--mono); font-size: 11px; color: var(--accent-light);
+    background: var(--accent-dim); border: 1px solid rgba(127,186,228,0.22);
+    padding: 4px 10px; border-radius: 4px; cursor: pointer;
+    letter-spacing: 0.08em; transition: background 0.2s, border-color 0.2s; white-space: nowrap;
+  }
+  .lang-btn:hover { background: rgba(83,119,194,0.28); border-color: var(--accent-light); }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 0 2rem; }
+  section { padding: 5rem 0; }
+
+  #about {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    padding-top: 56px; position: relative; overflow: hidden;
+  }
+  #about::before {
+    content: ""; position: absolute; top: -15%; right: -8%;
+    width: 520px; height: 520px;
+    background: radial-gradient(circle, rgba(41,46,108,0.5) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  #about::after {
+    content: ""; position: absolute; bottom: 5%; left: -5%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(83,119,194,0.1) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-inner { display: flex; align-items: center; gap: 2.5rem; width: 100%; margin-bottom: 4rem; }
+  .hero-avatar {
+    width: 96px; height: 96px; border-radius: 50%;
+    border: 2px solid var(--navy); box-shadow: 0 0 0 4px rgba(83,119,194,0.2);
+    flex-shrink: 0; object-fit: cover;
+    opacity: 0; animation: fadeUp 0.5s ease 0.15s forwards;
+  }
+  .hero-text { flex: 1; }
+  .hero-eyebrow { font-family: var(--mono); font-size: 12px; color: var(--accent-light); letter-spacing: 0.08em; margin-bottom: 1rem; opacity: 0; animation: fadeUp 0.5s ease 0.25s forwards; }
+  .hero-name { font-family: var(--display); font-size: clamp(2.4rem, 5.5vw, 4rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; color: #fff; margin-bottom: 0.4rem; opacity: 0; animation: fadeUp 0.5s ease 0.38s forwards; }
+  .hero-title-line { font-family: var(--display); font-size: clamp(1rem, 2.2vw, 1.25rem); font-weight: 400; color: var(--text-muted); margin-bottom: 1.75rem; opacity: 0; animation: fadeUp 0.5s ease 0.5s forwards; }
+  .hero-title-line .hl { color: var(--accent-light); font-weight: 500; }
+  .typing-container { font-family: var(--mono); font-size: 14px; color: var(--text-dim); background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 0.85rem 1.15rem; border-radius: 4px; margin-bottom: 2rem; min-height: 50px; opacity: 0; animation: fadeUp 0.5s ease 0.62s forwards; }
+  .typing-cursor { display: inline-block; width: 2px; height: 1em; background: var(--accent-light); vertical-align: text-bottom; animation: blink 1s step-end infinite; }
+  @keyframes blink { 0%,100%{ opacity:1; } 50%{ opacity:0; } }
+  .hero-cta { display: flex; gap: 0.85rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.5s ease 0.75s forwards; }
+  @keyframes fadeUp { from{ opacity:0; transform:translateY(16px); } to{ opacity:1; transform:translateY(0); } }
+
+  .btn { font-family: var(--sans); font-size: 14px; font-weight: 500; padding: 0.6rem 1.4rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; border: none; text-decoration: none; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--navy); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--accent-light); color: var(--text); }
+
+  .section-label { font-family: var(--mono); font-size: 11px; color: var(--accent-light); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .section-title { font-family: var(--display); font-size: 1.85rem; font-weight: 600; color: #fff; letter-spacing: -0.02em; margin-bottom: 2.75rem; }
+  .divider { height: 1px; background: var(--border); }
+
+  .about-body p { color: var(--text-dim); font-size: 1.02rem; line-height: 1.85; max-width: 680px; }
+  .about-body p + p { margin-top: 1rem; }
+  .about-body strong { color: var(--text); font-weight: 500; }
+
+  .timeline { position: relative; padding-left: 1.5rem; }
+  .timeline::before { content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 1px; background: linear-gradient(to bottom, var(--navy), var(--blue-mid), transparent); }
+  .timeline-item { position: relative; padding-bottom: 2.5rem; }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before { content: ""; position: absolute; left: -1.5rem; top: 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--blue-light); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--blue-mid); }
+  .timeline-date { font-family: var(--mono); font-size: 11px; color: var(--text-muted); letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+  .timeline-role { font-family: var(--display); font-size: 1.02rem; font-weight: 600; color: #fff; margin-bottom: 0.12rem; }
+  .timeline-org { font-size: 13px; color: var(--accent-light); margin-bottom: 0.7rem; }
+  .timeline-desc { color: var(--text-dim); font-size: 0.91rem; line-height: 1.75; }
+  .timeline-desc li { list-style: none; padding-left: 1rem; position: relative; margin-bottom: 0.28rem; }
+  .timeline-desc li::before { content: "—"; position: absolute; left: 0; color: var(--blue-mid); font-size: 0.8rem; }
+
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.2rem; }
+  .project-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; transition: border-color 0.2s, transform 0.2s; display: flex; flex-direction: column; }
+  .project-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .project-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 0.7rem; }
+  .project-name { font-family: var(--mono); font-size: 0.93rem; font-weight: 500; color: var(--accent-light); }
+  .project-link { font-size: 12px; color: var(--text-muted); white-space: nowrap; transition: color 0.2s; }
+  .project-link:hover { color: var(--text); }
+  .project-desc { font-size: 0.87rem; color: var(--text-dim); line-height: 1.72; flex-grow: 1; margin-bottom: 1rem; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.38rem; margin-top: auto; }
+  .tag { font-family: var(--mono); font-size: 10.5px; color: var(--blue-light); background: var(--accent-dim); padding: 2px 8px; border-radius: 3px; letter-spacing: 0.02em; border: 1px solid rgba(83,119,194,0.2); }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+  .skill-group-title { font-family: var(--mono); font-size: 11px; color: var(--accent-light); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.7rem; padding-bottom: 0.45rem; border-bottom: 1px solid var(--border); }
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.32rem; }
+  .skill-list li { font-size: 0.89rem; color: var(--text-dim); display: flex; align-items: center; gap: 0.5rem; }
+  .skill-list li::before { content: ""; display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--blue-mid); flex-shrink: 0; }
+
+  .edu-grid { display: flex; flex-direction: column; gap: 1.75rem; }
+  .edu-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; }
+  .edu-block-title { font-family: var(--display); font-size: 10.5px; font-weight: 600; color: var(--accent-light); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.1rem; }
+  .edu-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--border); }
+  .edu-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .edu-item:first-of-type { padding-top: 0; }
+  .edu-name { font-family: var(--display); font-size: 0.93rem; font-weight: 500; color: #fff; margin-bottom: 0.12rem; }
+  .edu-place { font-size: 0.81rem; color: var(--text-muted); }
+  .edu-year { font-family: var(--mono); font-size: 11px; color: var(--text-muted); white-space: nowrap; padding-top: 3px; }
+
+  #contact { padding-bottom: 6rem; }
+  .contact-card { background: var(--bg2); border: 1px solid var(--border); border-top: 2px solid var(--navy); border-radius: 12px; padding: 2.5rem; text-align: center; }
+  .contact-card h3 { font-family: var(--display); font-size: 1.55rem; font-weight: 600; color: #fff; margin-bottom: 0.7rem; letter-spacing: -0.02em; }
+  .contact-card p { color: var(--text-muted); font-size: 0.94rem; margin-bottom: 1.75rem; }
+  .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+  footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; text-align: center; font-family: var(--mono); font-size: 11px; color: var(--text-muted); letter-spacing: 0.06em; }
+
+  @media (max-width: 640px) {
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links li:nth-child(3), .nav-links li:nth-child(4) { display: none; }
+    .container { padding: 0 1.25rem; }
+    section { padding: 3.5rem 0; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .hero-inner { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    .hero-avatar { width: 72px; height: 72px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .hero-avatar, .hero-eyebrow, .hero-name, .hero-title-line, .typing-container, .hero-cta { opacity: 1 !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">luis@portfolio:~$</span>
+  <div class="nav-right">
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about"      data-en="About"      data-es="Sobre mí">About</a></li>
+      <li><a href="#experience" data-en="Experience" data-es="Experiencia">Experience</a></li>
+      <li><a href="#projects"   data-en="Projects"   data-es="Proyectos">Projects</a></li>
+      <li><a href="#contact"    data-en="Contact"    data-es="Contacto">Contact</a></li>
+    </ul>
+    <button class="lang-btn" id="lang-btn" aria-label="Switch language">ES</button>
+  </div>
+</nav>
+
+<!-- HERO + ABOUT -->
+<section id="about">
+  <div class="container">
+
+    <div class="hero-inner">
+      <img src="https://avatars.githubusercontent.com/u/149726400?v=4" alt="Luis Reis Viera" class="hero-avatar">
+      <div class="hero-text">
+        <p class="hero-eyebrow" data-en="// open to opportunities" data-es="// disponible para oportunidades">// open to opportunities</p>
+        <h1 class="hero-name">Luis Reis Viera</h1>
+        <p class="hero-title-line">
+          <span data-en="Data Analyst" data-es="Analista de Datos">Data Analyst</span>
+          &nbsp;&middot;&nbsp;
+          <span class="hl" data-en="Backend Developer" data-es="Desarrollador Backend">Backend Developer</span>
+          &nbsp;&middot;&nbsp;
+          <span data-en="Student" data-es="Estudiante">Student</span>
+        </p>
+        <div class="typing-container">
+          <span id="typed-text"></span><span class="typing-cursor" id="cursor"></span>
+        </div>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary" data-en="View projects" data-es="Ver proyectos">View projects</a>
+          <a href="mailto:luisreisviera@gmail.com" class="btn btn-ghost" data-en="Contact me" data-es="Contactarme">Contact me</a>
+          <a href="https://github.com/luantorv" target="_blank" class="btn btn-ghost">GitHub &uarr;&searr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-body">
+      <p class="section-label" data-en="// 01" data-es="// 01">// 01</p>
+      <h2 class="section-title" data-en="About me" data-es="Sobre mi">About me</h2>
+      <p id="about-p1"
+        data-en="I&apos;m a second-year student of the <strong>Higher Technician in Data Science and Artificial Intelligence</strong> (two out of three years) with hands-on experience in Linux server administration, application deployment, and backend development. I&apos;m interested in the intersection between data analysis and software engineering: not just building models, but deploying and maintaining them in production."
+        data-es="Soy estudiante de la <strong>Tecnicatura Superior en Ciencia de Datos e Inteligencia Artificial</strong> (segundo a&ntilde;o de tres) con experiencia pr&aacute;ctica en administraci&oacute;n de servidores Linux, despliegue de aplicaciones y desarrollo backend. Me interesa el cruce entre el an&aacute;lisis de datos y la ingenier&iacute;a de software: no solo construir modelos, sino tambi&eacute;n desplegarlos y mantenerlos en producci&oacute;n.">
+        I&apos;m a second-year student of the <strong>Higher Technician in Data Science and Artificial Intelligence</strong> (two out of three years) with hands-on experience in Linux server administration, application deployment, and backend development. I&apos;m interested in the intersection between data analysis and software engineering: not just building models, but deploying and maintaining them in production.
+      </p>
+      <p id="about-p2" style="margin-top:1rem"
+        data-en="Beyond my technical background, I work as a teaching assistant at university &mdash; an experience that sharpened my ability to <strong>communicate technical concepts clearly</strong> and empathetically. I am looking for a <strong>first formal professional role</strong> where I can contribute real solutions and keep growing within a team."
+        data-es="Adem&aacute;s de mi formaci&oacute;n t&eacute;cnica, colaboro como adscripto en la universidad, lo que me permiti&oacute; desarrollar habilidades de <strong>comunicaci&oacute;n t&eacute;cnica</strong> y empat&iacute;a para explicar conceptos complejos de manera accesible. Busco una <strong>primera experiencia profesional formal</strong> donde pueda aportar soluciones reales y seguir creciendo en un equipo.">
+        Beyond my technical background, I work as a teaching assistant at university &mdash; an experience that sharpened my ability to <strong>communicate technical concepts clearly</strong> and empathetically. I am looking for a <strong>first formal professional role</strong> where I can contribute real solutions and keep growing within a team.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">// 02</p>
+    <h2 class="section-title" data-en="Experience" data-es="Experiencia">Experience</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <p class="timeline-date" data-en="2026 &mdash; Present" data-es="2026 &mdash; Presente">2026 &mdash; Present</p>
+        <p class="timeline-role" data-en="Linux Infrastructure Administrator &amp; Application Deployment" data-es="Administrador de Infraestructura Linux y Despliegue de Aplicaciones">Linux Infrastructure Administrator &amp; Application Deployment</p>
+        <p class="timeline-org">Posadas, Misiones</p>
+        <ul class="timeline-desc">
+          <li data-en="Administration of Debian 12 production servers." data-es="Administraci&oacute;n de servidores Debian 12 en producci&oacute;n.">Administration of Debian 12 production servers.</li>
+          <li data-en="Security configuration: SSH, firewall, users and permissions." data-es="Configuraci&oacute;n de seguridad: SSH, firewall, usuarios y permisos.">Security configuration: SSH, firewall, users and permissions.</li>
+          <li data-en="Deployment and operation of applications with Docker, Nginx, FastAPI and PostgreSQL." data-es="Despliegue y operaci&oacute;n de aplicaciones con Docker, Nginx, FastAPI y PostgreSQL.">Deployment and operation of applications with Docker, Nginx, FastAPI and PostgreSQL.</li>
+          <li data-en="Task automation via Bash scripts." data-es="Automatizaci&oacute;n de tareas mediante scripts en Bash.">Task automation via Bash scripts.</li>
+          <li data-en="Continuous monitoring and backup management." data-es="Monitoreo continuo y gesti&oacute;n de backups.">Continuous monitoring and backup management.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <p class="timeline-date" data-en="2024 &mdash; Present" data-es="2024 &mdash; Presente">2024 &mdash; Present</p>
+        <p class="timeline-role" data-en="Teaching Assistant &mdash; Calculus I &amp; Elements of Mathematics" data-es="Adscripto en An&aacute;lisis I y Elementos de Matem&aacute;tica">Teaching Assistant &mdash; Calculus I &amp; Elements of Mathematics</p>
+        <p class="timeline-org">Universidad Nacional de Misiones (UNaM)</p>
+        <ul class="timeline-desc">
+          <li data-en="Personalised student support, identifying learning blockers." data-es="Asistencia personalizada a estudiantes, identificando bloqueos de aprendizaje.">Personalised student support, identifying learning blockers.</li>
+          <li data-en="Communication of complex mathematical concepts in an accessible way." data-es="Comunicaci&oacute;n de conceptos matem&aacute;ticos complejos de manera accesible.">Communication of complex mathematical concepts in an accessible way.</li>
+          <li data-en="Collaboration in academic planning and class logistics." data-es="Colaboraci&oacute;n en planificaci&oacute;n acad&eacute;mica y log&iacute;stica de clases.">Collaboration in academic planning and class logistics.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <p class="timeline-date" data-en="2022 &mdash; Present" data-es="2022 &mdash; Presente">2022 &mdash; Present</p>
+        <p class="timeline-role" data-en="IT Technical Support" data-es="Soporte T&eacute;cnico IT">IT Technical Support</p>
+        <p class="timeline-org">Freelance &middot; Posadas, Misiones</p>
+        <ul class="timeline-desc">
+          <li data-en="Diagnosis, repair and maintenance of hardware and software." data-es="Diagn&oacute;stico, reparaci&oacute;n y mantenimiento de equipos inform&aacute;ticos.">Diagnosis, repair and maintenance of hardware and software.</li>
+          <li data-en="Resolution of OS failures and software installation issues." data-es="Resoluci&oacute;n de fallos en sistemas operativos e instalaci&oacute;n de software.">Resolution of OS failures and software installation issues.</li>
+          <li data-en="End-to-end service management, from intake to follow-up." data-es="Gesti&oacute;n integral del servicio, desde el requerimiento hasta el seguimiento.">End-to-end service management, from intake to follow-up.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">// 03</p>
+    <h2 class="section-title" data-en="Projects" data-es="Proyectos">Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">nixbox</span>
+          <a href="https://github.com/luantorv/nixbox" target="_blank" class="project-link">GitHub &uarr;&searr;</a>
+        </div>
+        <p class="project-desc"
+          data-en="Agent management system with sandboxing for NixOS. Creates and runs automated tasks using external LLMs (Anthropic, OpenAI, Gemini) from a web interface on your tailnet. Packaged as a NixOS configuration module."
+          data-es="Sistema de gesti&oacute;n de agentes con sandboxing para NixOS. Crea y ejecuta tareas automatizadas usando LLMs externos desde una interfaz web en tu tailnet. Empaquetado como m&oacute;dulo de configuraci&oacute;n NixOS.">
+          Agent management system with sandboxing for NixOS. Creates and runs automated tasks using external LLMs (Anthropic, OpenAI, Gemini) from a web interface on your tailnet. Packaged as a NixOS configuration module.
+        </p>
+        <div class="tag-list">
+          <span class="tag">FastAPI</span><span class="tag">Bubblewrap</span><span class="tag">Nix</span><span class="tag">HTMX</span><span class="tag">Python</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">mosaite</span>
+          <a href="https://github.com/luantorv/mosaite" target="_blank" class="project-link">GitHub &uarr;&searr;</a>
+        </div>
+        <p class="project-desc"
+          data-en="Practice platform for teaching basic accounting, with natural-language tools: semantic search and an accounting assistant (RAG) that explain the reasoning behind each ledger entry."
+          data-es="Plataforma de pr&aacute;ctica para ense&ntilde;anza de contabilidad b&aacute;sica, con herramientas de lenguaje natural: b&uacute;squeda sem&aacute;ntica y asistente contable (RAG) que explican el razonamiento detr&aacute;s de cada asiento.">
+          Practice platform for teaching basic accounting, with natural-language tools: semantic search and an accounting assistant (RAG) that explain the reasoning behind each ledger entry.
+        </p>
+        <div class="tag-list">
+          <span class="tag">Django REST</span><span class="tag">ReactJS</span><span class="tag">RAG</span><span class="tag">sentence-transformers</span><span class="tag">Nix</span><span class="tag">LaTeX</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">dash-static</span>
+          <a href="https://github.com/luantorv/dash-static" target="_blank" class="project-link">GitHub &uarr;&searr;</a>
+        </div>
+        <p class="project-desc"
+          data-en="Data-focused static dashboard consuming FakeStore and TheMealDB APIs. Recreates and extends DomWatcharin&apos;s work with clean Chart.js visualisations."
+          data-es="Dashboard est&aacute;tico orientado a datos que consume las APIs de FakeStore y TheMealDB. Recrea y extiende el trabajo de DomWatcharin con visualizaciones limpias en Chart.js.">
+          Data-focused static dashboard consuming FakeStore and TheMealDB APIs. Recreates and extends DomWatcharin&apos;s work with clean Chart.js visualisations.
+        </p>
+        <div class="tag-list">
+          <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Chart.js</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">avfe</span>
+          <a href="https://github.com/luantorv/avfe" target="_blank" class="project-link">GitHub &uarr;&searr;</a>
+        </div>
+        <p class="project-desc"
+          data-en="REST backend for a virtual classroom, with data validation middleware and clean MongoDB schema design. A solid exercise in Node.js backend architecture."
+          data-es="Backend REST para un aula virtual, con middleware de validaci&oacute;n de datos y dise&ntilde;o limpio de esquemas MongoDB. Buen ejercicio de arquitectura backend en Node.js.">
+          REST backend for a virtual classroom, with data validation middleware and clean MongoDB schema design. A solid exercise in Node.js backend architecture.
+        </p>
+        <div class="tag-list">
+          <span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">MongoDB</span><span class="tag">Mongoose</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">// 04</p>
+    <h2 class="section-title" data-en="Skills" data-es="Habilidades">Skills</h2>
+    <div class="skills-grid">
+      <div>
+        <p class="skill-group-title" data-en="Languages" data-es="Lenguajes">Languages</p>
+        <ul class="skill-list">
+          <li>Python (Intermediate)</li><li>SQL</li><li>JavaScript</li><li>Bash</li>
+        </ul>
+      </div>
+      <div>
+        <p class="skill-group-title">Data Science</p>
+        <ul class="skill-list">
+          <li>Pandas</li><li>NumPy</li><li>Scikit-Learn</li><li>Matplotlib</li><li>Jupyter</li>
+        </ul>
+      </div>
+      <div>
+        <p class="skill-group-title">Backend &amp; Web</p>
+        <ul class="skill-list">
+          <li>FastAPI</li><li>Django / DRF</li><li>Express.js</li><li>ReactJS</li><li>HTMX</li>
+        </ul>
+      </div>
+      <div>
+        <p class="skill-group-title">Infra &amp; DevOps</p>
+        <ul class="skill-list">
+          <li>Linux (Debian / NixOS)</li><li>Docker</li><li>Nginx</li><li>Nix / NixOS</li><li>SSH &middot; Firewall</li>
+        </ul>
+      </div>
+      <div>
+        <p class="skill-group-title" data-en="Databases" data-es="Bases de Datos">Databases</p>
+        <ul class="skill-list">
+          <li>PostgreSQL</li><li>SQLite</li><li>MongoDB</li>
+        </ul>
+      </div>
+      <div>
+        <p class="skill-group-title" data-en="Tools" data-es="Herramientas">Tools</p>
+        <ul class="skill-list">
+          <li>Git / GitHub</li><li>Google Colab</li><li>LaTeX</li><li>NotebookLM</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <p class="section-label">// 05</p>
+    <h2 class="section-title" data-en="Education &amp; Courses" data-es="Educaci&oacute;n y Cursos">Education &amp; Courses</h2>
+    <div class="edu-grid">
+
+      <div class="edu-block">
+        <p class="edu-block-title" data-en="Formal Education" data-es="Formaci&oacute;n Formal">Formal Education</p>
+        <div class="edu-item">
+          <div>
+            <p class="edu-name" data-en="Higher Technician in Data Science and Artificial Intelligence" data-es="Tecnicatura en Ciencia de Datos e Inteligencia Artificial">Higher Technician in Data Science and Artificial Intelligence</p>
+            <p class="edu-place">Instituto Superior de Formaci&oacute;n Docente y T&eacute;cnica &middot; Posadas</p>
+          </div>
+          <span class="edu-year" data-en="2025 &mdash; Present" data-es="2025 &mdash; Presente">2025 &mdash; Present</span>
+        </div>
+      </div>
+
+      <div class="edu-block">
+        <p class="edu-block-title" data-en="Courses &amp; Certificates" data-es="Cursos y Certificados">Courses &amp; Certificates</p>
+        <div class="edu-item">
+          <div>
+            <p class="edu-name" data-en="Backend Development Bootcamp in JavaScript" data-es="Bootcamp de Desarrollo Backend en JavaScript">Backend Development Bootcamp in JavaScript</p>
+            <p class="edu-place">Silicon Misiones &middot; Express, MongoDB, SQL</p>
+          </div>
+          <span class="edu-year">2024</span>
+        </div>
+        <div class="edu-item">
+          <div>
+            <p class="edu-name" data-en="Introduction to Programming" data-es="Introducci&oacute;n a la Programaci&oacute;n">Introduction to Programming</p>
+            <p class="edu-place" data-en="Silicon Misiones &middot; Basic algorithms with PSeInt" data-es="Silicon Misiones &middot; Algor&iacute;tmia b&aacute;sica con PSeInt">Silicon Misiones &middot; Basic algorithms with PSeInt</p>
+          </div>
+          <span class="edu-year">2023</span>
+        </div>
+        <div class="edu-item">
+          <div>
+            <p class="edu-name" data-en="PC Operator" data-es="Operador de PC">PC Operator</p>
+            <p class="edu-place" data-en="FHyCS &ndash; UNaM &middot; Office suite (Word, Excel, PowerPoint)" data-es="FHyCS &ndash; UNaM &middot; Ofim&aacute;tica (Word, Excel, PowerPoint)">FHyCS &ndash; UNaM &middot; Office suite (Word, Excel, PowerPoint)</p>
+          </div>
+          <span class="edu-year">2023</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-card">
+      <h3 data-en="Let&apos;s talk." data-es="&iquest;Hablamos?">Let&apos;s talk.</h3>
+      <p data-en="I&apos;m looking for my first formal professional role. If you have something interesting, reach out." data-es="Estoy buscando mi primera experiencia profesional formal. Si ten&eacute;s algo interesante, escrib&iacute;me.">I&apos;m looking for my first formal professional role. If you have something interesting, reach out.</p>
+      <div class="contact-links">
+        <a href="mailto:luisreisviera@gmail.com" class="btn btn-primary">luisreisviera@gmail.com</a>
+        <a href="https://github.com/luantorv" target="_blank" class="btn btn-ghost">github.com/luantorv &uarr;&searr;</a>
+        <a href="https://www.linkedin.com/in/luantorv/" target="_blank" class="btn btn-ghost">LinkedIn &uarr;&searr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Luis Reis Viera &middot; Posadas, Misiones, Argentina &middot; 2026
+  </div>
+</footer>
+
+<script>
+  var lang = "en";
+  var btn = document.getElementById("lang-btn");
+
+  function applyLang(l) {
+    lang = l;
+    btn.textContent = l === "en" ? "ES" : "EN";
+    document.documentElement.lang = l === "en" ? "en" : "es";
+    document.title = l === "en" ? "Luis Reis Viera — Data Analyst" : "Luis Reis Viera — Analista de Datos";
+
+    document.querySelectorAll("[data-en]").forEach(function(el) {
+      var val = el.getAttribute("data-" + l);
+      if (!val) return;
+      el.innerHTML = val;
+    });
+
+    restartTyping();
+  }
+
+  btn.addEventListener("click", function() { applyLang(lang === "en" ? "es" : "en"); });
+
+  var phrasesEN = ["I turn data into decisions.", "I build systems that work in production.", "Analyse, model, deploy."];
+  var phrasesES = ["Transformo datos en decisiones.", "Construyo sistemas que funcionan en producci\u00f3n.", "Analizo, modelo, despliego."];
+
+  var phraseIndex = 0, charIndex = 0, deleting = false, done = false, timer = null;
+  var el = document.getElementById("typed-text");
+  var cursor = document.getElementById("cursor");
+
+  function restartTyping() {
+    clearTimeout(timer);
+    phraseIndex = 0; charIndex = 0; deleting = false; done = false;
+    el.textContent = "";
+    cursor.style.animation = "";
+    cursor.style.opacity = "1";
+    timer = setTimeout(type, 600);
+  }
+
+  function type() {
+    if (done) return;
+    var phrases = lang === "en" ? phrasesEN : phrasesES;
+    var current = phrases[phraseIndex];
+    if (!deleting) {
+      el.textContent = current.slice(0, charIndex + 1);
+      charIndex++;
+      if (charIndex === current.length) {
+        if (phraseIndex === phrases.length - 1) {
+          done = true;
+          cursor.style.animation = "none";
+          cursor.style.opacity = "0";
+          return;
+        }
+        timer = setTimeout(function() { deleting = true; type(); }, 1800);
+        return;
+      }
+    } else {
+      el.textContent = current.slice(0, charIndex - 1);
+      charIndex--;
+      if (charIndex === 0) { deleting = false; phraseIndex++; }
+    }
+    timer = setTimeout(type, deleting ? 32 : 52);
+  }
+
+  setTimeout(type, 1400);
+</script>
+
+</body>
+</html>
